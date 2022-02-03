@@ -1,3 +1,4 @@
+const { d } = require('nunjucks/src/filters');
 const Sequelize                                         = require('sequelize');
 
 module.exports                                          = class User extends Sequelize.Model {
@@ -37,5 +38,18 @@ module.exports                                          = class User extends Seq
         });
     }
 
-    static associate(db) {}
+    static associate(db) {
+        db.User.hasMany(db.Post);
+        db.User.belongsToMany(db.User, {
+            foreignKey                                  : 'followingId',
+            as                                          : 'Folloewrs',
+            through                                     : 'Follow'
+        });
+
+        db.User.belongsToMany(db.User, {
+            foreignKey                                  : 'followerId',
+            as                                          : 'Followings',
+            through                                     : 'Follow'
+        });
+    }
 }
