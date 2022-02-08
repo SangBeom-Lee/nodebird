@@ -12,16 +12,16 @@ router.post('/join', isNotLoggedIn, async (req, res, next) => {
 
     // 가입처리
     try {
-
         // 기존 가입유무 체크
-        const exUser                                    = await User.findOne({ where: email });
+        const exUser                                    = await User.findOne({ where: {email} });
+
         if(exUser) return res.redirect('/join?error=exist');
 
         const hash                                      = await bcrypt.hash(password, 12);
         await User.create({
             email,
             nick,
-            passowrd: hash
+            password: hash
         });
 
         return res.redirect('/');
@@ -43,6 +43,7 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
             return res.redirect(`/?loginError=${info.message}`);
         }
 
+        console.log(user);
         return req.login(user, (loginError) => {
             if(loginError) {
                 console.error(loginError);
