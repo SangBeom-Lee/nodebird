@@ -4,7 +4,6 @@ const { Post, User, Hashtag }                           = require('../models');
 const router                                            = express.Router();
 
 router.use((req, res, next) => {
-    console.log(req.session);
     res.locals.user                                     = null;
     res.locals.followerCount                            = req.user? req.user.Followers.lenth : 0;
     res.locals.followingCOunt                           = req.user? req.user.Followings.length : 0 ;
@@ -34,7 +33,8 @@ router.get('/', async (req, res, next) => {
         const twits                                     = [];
         res.render('main', {
             title                                       : 'NodeBird',
-            twits                                       : posts
+            twits                                       : posts,
+            user                                        : res.locals.user
         });
     } catch (err) {
         console.error(err);

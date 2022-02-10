@@ -5,6 +5,10 @@ const bcrypt                                            = require('bcrypt');
 const User                                              = require('../models/user');
 
 module.exports                                          = () => {
+    passport.serializeUser((user, done) => {
+        done(null, user);
+      });
+
     passport.use(new LocalStrategy({
         usernameField                                   : 'email',
         passwordField                                   : 'password'
