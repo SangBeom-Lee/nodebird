@@ -3,13 +3,13 @@ const { isLoggedIn, isNotLoggedIn }                     = require('./middlewares
 const { Post, User, Hashtag }                           = require('../models');
 const router                                            = express.Router();
 
-router.use((req, res, next) => {
+/*router.use((req, res, next) => {
     res.locals.user                                     = null;
     res.locals.followerCount                            = req.user? req.user.Followers.lenth : 0;
     res.locals.followingCOunt                           = req.user? req.user.Followings.length : 0 ;
     res.locals.followerIdList                           = req.user? req.user.Followings.map(f => f.id) : [];
     next();
-});
+});*/
 
 router.get('/profile', isLoggedIn, (req, res) => {
     res.render('profile', { title: '내 정보 - NodeBird' });
@@ -34,7 +34,7 @@ router.get('/', async (req, res, next) => {
         res.render('main', {
             title                                       : 'NodeBird',
             twits                                       : posts,
-            user                                        : res.locals.user
+            user                                        : req.user
         });
     } catch (err) {
         console.error(err);
